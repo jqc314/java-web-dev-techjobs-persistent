@@ -50,7 +50,7 @@ public class SkillController {
 
     @RequestMapping("index")
     public String displayAllSkills(Model model){
-        model.addAttribute("Skills", skillRepository.findAll());
+        model.addAttribute("skills", skillRepository.findAll());
 
         return "skills/index";
     }
