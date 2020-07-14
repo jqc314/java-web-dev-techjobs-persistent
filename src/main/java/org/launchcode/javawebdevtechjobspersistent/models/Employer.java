@@ -14,7 +14,7 @@ import java.util.List;
 public class Employer extends AbstractEntity {
 
     @OneToMany(mappedBy = "employer")
-    private List<Job> jobs = new ArrayList<>();
+    private final List<Job> jobs = new ArrayList<>();
 
     @NotBlank
     @Length(min = 5, max = 75)

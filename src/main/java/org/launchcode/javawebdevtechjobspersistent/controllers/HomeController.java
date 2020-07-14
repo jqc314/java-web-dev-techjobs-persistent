@@ -2,8 +2,10 @@ package org.launchcode.javawebdevtechjobspersistent.controllers;
 
 import org.launchcode.javawebdevtechjobspersistent.models.Employer;
 import org.launchcode.javawebdevtechjobspersistent.models.Job;
+import org.launchcode.javawebdevtechjobspersistent.models.Skill;
 import org.launchcode.javawebdevtechjobspersistent.models.data.EmployerRepository;
 import org.launchcode.javawebdevtechjobspersistent.models.data.JobRepository;
+import org.launchcode.javawebdevtechjobspersistent.models.data.SkillRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.batch.BatchProperties;
 import org.springframework.stereotype.Controller;
@@ -26,6 +28,9 @@ public class HomeController {
     @Autowired
     public JobRepository jobRepository;
 
+    @Autowired
+    public SkillRepository skillRepository;
+
 
     @RequestMapping("")
     public String index(Model model) {
@@ -46,12 +51,17 @@ public class HomeController {
 
     @PostMapping("add")
     public String processAddJobForm(@ModelAttribute @Valid Job newJob,
-                                    Errors errors, Model model) {
+                                    Errors errors, Model model,@RequestParam List<Integer> skills) {
+
+        List<Skill> skillObjs = (List<Skill>) skillRepository.findAllById(skills);
+        model.addAttribute("skills", skills);
+        newJob.setSkills(skillObjs);
 
         if (errors.hasErrors()) {
             model.addAttribute("title", "Add Job");
             return "add";
         }
+
 
         jobRepository.save(newJob);
 
