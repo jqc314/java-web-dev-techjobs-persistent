@@ -13,14 +13,16 @@ import java.util.List;
 @Entity
 public class Employer extends AbstractEntity {
 
-    @OneToMany
-    @JoinColumn
+    @OneToMany(mappedBy = "employer")
     private List<Job> jobs = new ArrayList<>();
 
     @NotBlank
     @Length(min = 5, max = 75)
 private String location;
 
+    public List<Job> getJobs(){
+        return jobs;
+    }
 
     public String getLocation() {
         return location;

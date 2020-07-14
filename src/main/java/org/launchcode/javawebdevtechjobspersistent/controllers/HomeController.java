@@ -5,6 +5,7 @@ import org.launchcode.javawebdevtechjobspersistent.models.Job;
 import org.launchcode.javawebdevtechjobspersistent.models.data.EmployerRepository;
 import org.launchcode.javawebdevtechjobspersistent.models.data.JobRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.batch.BatchProperties;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
@@ -22,6 +23,8 @@ public class HomeController {
     @Autowired
     public EmployerRepository employerRepository;
 
+    @Autowired
+    public JobRepository jobRepository;
 
 
     @RequestMapping("")
@@ -43,16 +46,14 @@ public class HomeController {
 
     @PostMapping("add")
     public String processAddJobForm(@ModelAttribute @Valid Job newJob,
-                                    Errors errors, Model model, @RequestParam int employerId) {
-        model.addAttribute("employerId", employerId);
+                                    Errors errors, Model model) {
 
         if (errors.hasErrors()) {
             model.addAttribute("title", "Add Job");
             return "add";
         }
 
-
-
+        jobRepository.save(newJob);
 
         return "redirect:";
     }
