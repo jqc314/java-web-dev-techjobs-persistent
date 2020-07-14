@@ -18,6 +18,8 @@ import static org.launchcode.javawebdevtechjobspersistent.controllers.ListContro
 @RequestMapping("search")
 public class SearchController {
 
+
+
     @Autowired
     private JobRepository jobRepository;
 
